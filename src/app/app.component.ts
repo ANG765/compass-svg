@@ -111,6 +111,8 @@ export class CompassComponent {
 
     this.rotationAngle = newRadian;
 
+    console.log('new:',this.calculateLeftLegEndOld(), 'old:',this.calculateLeftLegEnd())
+
     this.getTransform();
   }
 
@@ -132,8 +134,8 @@ export class CompassComponent {
     }
     // this.offsetX += currentLegX - this.calculateLeftLegEnd().x;
     // this.offsetY += currentLegY - this.calculateLeftLegEnd().y;
-    // console.log(currentLegX - this.calculateLeftLegEnd().x);
-    // this.getTransform(); 
+    console.log(currentLegX - this.calculateLeftLegEnd().x);
+    this.getTransform(); 
   }
 
   getTransform() {
@@ -159,8 +161,22 @@ export class CompassComponent {
     const y = this.lengthLegs * Math.cos(alpha);
 
     return {
-      x: (rotationCenterWithOffset.x - x) * -1,
-      y: rotationCenterWithOffset.y + y,
+      x: rotationCenterWithOffset.x - x,
+      y: rotationCenterWithOffset.y - y,
+      radian: undefined,
+    };
+  }
+
+  calculateLeftLegEndOld() {
+    let alpha = 2 * Math.PI - this.legRotationRadian;
+    alpha %= 2 * Math.PI;
+
+    const x = this.lengthLegs * Math.sin(alpha);
+    const y = this.lengthLegs * Math.cos(alpha);
+
+    return {
+      x: this.centerCompass.x - this.widthLegs - x,
+      y: this.centerCompass.y + y,
       radian: undefined,
     };
   }
