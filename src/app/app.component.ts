@@ -95,9 +95,13 @@ export class CompassComponent {
 
   onRotation(event: MouseEvent) {
     // const newRadian = this.getRotationRadian(this.rotationCenter, event);
-    const radius = 300 / 2;
-    console.log(this.offsetX, this.offsetY);
-    const radians = Math.atan2(event.pageX - (this.offsetX + this.widthCompass/2), event.pageY - (this.offsetY + this.heightCompass/2));
+    const rotationCenterWithOffset = {
+      x: this.offsetX + this.rotationCenter.x,
+      y: this.offsetY + this.rotationCenter.y
+    }
+        console.log(this.rotationCenter);
+    
+    const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y);
     const newRadian = (radians * (180 / Math.PI) * -1) -180;
 
     this.rotationAngle = newRadian;
