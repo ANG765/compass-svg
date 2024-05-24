@@ -27,6 +27,8 @@ export class CompassComponent {
   rotationStartedX = 0;
   rotationStartedY = 0;
   transformStyles = '';
+  // Radius
+  radiusChange = false;
   // Compass size
   heightCompass = 301.5;
   widthCompass = 53;
@@ -41,28 +43,23 @@ export class CompassComponent {
   rotationRotatedCenter: Position;
   penPosition: Position;
 
+  transformLegs: {right:string} = {right:''};
+
   constructor() {
     this.legRotationRadian = 2 * Math.PI;
     this.rotationCenter = this.calculateLeftLegEnd();
     this.rotationRotatedCenter = this.calculateRotatedLeftLegEnd();
     this.penPosition = this.calculateRightLegEnd();
-
-    // Test: Make compass rotate
-    // setInterval(() => {
-    //    if(this.rotationAngle === 360) {
-    //      this.rotationAngle = 0;
-    //    }
-    //    this.rotationAngle += 1;
-    //    this.getTransform();
-    // }, 75);
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    if (this.dragging && !this.rotating) {
+    if (this.dragging && !this.rotating && !this.radiusChange) {
       this.onDrag(event);
-    } else if (this.dragging && this.rotating) {
+    } else if (this.dragging && this.rotating && !this.radiusChange) {
       this.onRotation(event);
+    } else if (this.dragging && !this.rotating && this.radiusChange) {
+      this.onRadiusChange(event);
     }
   }
 
@@ -70,6 +67,7 @@ export class CompassComponent {
   onDragEnd() {
     this.dragging = false;
     this.rotating = false;
+    this.radiusChange = false;
   }
 
   onDrag(event: MouseEvent) {
@@ -93,13 +91,20 @@ export class CompassComponent {
     event.preventDefault();
   }
 
+  // From here is the mathematical part extracted from the old project
+  onRadiusChangeStart(event: MouseEvent) {
+    this.radiusChange = true;
+    // this.rotationStartedX = event.clientX - this.offsetX;
+    // this.rotationStartedY = event.clientY - this.offsetY;
+    event.preventDefault();
+  }
+
   onRotation(event: MouseEvent) {
     // const newRadian = this.getRotationRadian(this.rotationCenter, event);
     const rotationCenterWithOffset = {
       x: this.offsetX + this.rotationCenter.x,
       y: this.offsetY + this.rotationCenter.y
     }
-        console.log(this.rotationCenter);
     
     const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y);
     const newRadian = (radians * (180 / Math.PI) * -1) -180;
@@ -107,26 +112,11 @@ export class CompassComponent {
     this.rotationAngle = newRadian;
 
     this.getTransform();
-    // const elem = event.target;
-    // // elem.style.cursor = "grabbing";
-    // let rotating = true;
-    // const radius = 252 / 2;
-    // const rotateHandler = (e)=>{
-    //     const radians = Math.atan2(e.pageX - radius, e.pageY - radius);
-    //     let rotateDegrees = (radians * (180 / Math.PI) * -1) -180;
-    //     if (rotating) {
-    //         elem.style.transform = `rotate(${rotateDegrees}deg)`;
-    //     }
-    // };
-    // document.addEventListener("mousemove", rotateHandler);
-    // const cancelRotate = (event)=>{
-    //     elem.style.cursor = "grab";
-    //     rotating = !rotating;
-    //     document.removeEventListener("mousemove", rotateHandler);
-    //     document.removeEventListener("mouseup", cancelRotate);
+  }
 
-    // };
-    // document.addEventListener("mouseup", cancelRotate);
+  onRadiusChange(event: MouseEvent){
+    this.transformLegs = {right:`rotate(270,${this.centerCompass.x},${this.centerCompass.y})`}
+    console.log(event);
   }
 
   getTransform() {
