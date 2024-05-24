@@ -43,7 +43,7 @@ export class CompassComponent {
   rotationRotatedCenter: Position;
   penPosition: Position;
 
-  transformLegs: {right:string} = {right:''};
+  transformLegs: {right:string;left:string} = {right:'',left:''};
 
   constructor() {
     this.legRotationRadian = 2 * Math.PI;
@@ -115,7 +115,17 @@ export class CompassComponent {
   }
 
   onRadiusChange(event: MouseEvent){
-    this.transformLegs = {right:`rotate(270,${this.centerCompass.x},${this.centerCompass.y})`}
+    const rotationCenterWithOffset = {
+      x: this.offsetX + this.rotationCenterOfLegs.x,
+      y: this.offsetY + this.rotationCenterOfLegs.y
+    }
+    
+    const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y);
+    const newRadian = (radians * (180 / Math.PI) * -1);
+    this.transformLegs = {
+      right:`rotate(${newRadian/2},${this.centerCompass.x},${this.centerCompass.y})`,
+      left:`rotate(${newRadian/-2},${this.centerCompass.x},${this.centerCompass.y})`
+    }
     console.log(event);
   }
 

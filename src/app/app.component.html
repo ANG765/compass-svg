@@ -1,7 +1,7 @@
 
 <svg class="svg-container" width="100%" height="100%" viewbox="0 0 500 500">
   <g class="drawing-compass" [attr.transform]="transformStyles" (mousedown)="onDragStart($event)">
-      <g class="compass-left-leg">
+      <g class="compass-left-leg" [attr.transform]="transformLegs.left">
           <rect class="compass-grey" x="8" y="70" width="15" height="208.5" />
           <path #leftLegTip class="compass-grey" d="M8 278.5 L23 301.5 L23 278.5 Z" />
       </g>
