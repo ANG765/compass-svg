@@ -1,0 +1,53 @@
+.svg-container {
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+  
+    .drawing-compass {
+      pointer-events: auto;
+  
+      .compass-white {
+        fill: #fff;
+      }
+  
+      .compass-grey {
+        fill: #a3a3a3;
+      }
+  
+      .compass-grey-stroke {
+        stroke: #a3a3a3;
+      }
+  
+      .compass-dark-grey {
+        fill: #444;
+      }
+  
+      .compass-transparent {
+        fill-opacity: 0;
+      }
+  
+      .compass-blue {
+        fill: #0c4968;
+      }
+  
+      .compass-dark-blue {
+        fill: #093b54;
+      }
+  
+      .compass-change-radius-handle {
+        fill: #444;
+        cursor: url('./assets/cursors/cursor-resize-ew.cur'), ew-resize;
+      }
+  
+      .compass-rotation-handle {
+        cursor: url('./assets/cursors/cursor-rotate.cur'), default;
+      }
+  
+      .compass-body,
+      .compass-right-leg .compass-grey,
+      .compass-left-leg {
+        cursor: move; //IE fallback
+        cursor: grab;
+      }
+    }
+  }
