@@ -1,7 +1,9 @@
 .svg-container {
-    position: absolute;
     z-index: 100;
     pointer-events: none;
+    height: 90vw;
+    width: 90vw;
+    display: block;
   
     .drawing-compass {
       pointer-events: auto;
