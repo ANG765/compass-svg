@@ -46,7 +46,7 @@
       .compass-body,
       .compass-right-leg .compass-grey,
       .compass-left-leg {
-        cursor: move; //IE fallback
+        cursor: move; 
         cursor: grab;
       }
     }

@@ -8,7 +8,7 @@ import { Rotation } from './interfaces/rotation.interface';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.css',
 })
 export class CompassComponent {
   @ViewChild('leftLegTip', { static: true }) leftLegTip: ElementRef | undefined;
