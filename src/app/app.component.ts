@@ -48,15 +48,13 @@ export class CompassComponent {
     this.penPosition = this.calculateRightLegEnd();
 
     // Test: Make compass rotate
-    /* 
-    setInterval(() => {
-       if(this.rotationAngle === 360) {
-         this.rotationAngle = 0;
-       }
-       this.rotationAngle += 1;
-       this.getTransform();
-    }, 75);
-    */
+    // setInterval(() => {
+    //    if(this.rotationAngle === 360) {
+    //      this.rotationAngle = 0;
+    //    }
+    //    this.rotationAngle += 1;
+    //    this.getTransform();
+    // }, 75);
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -200,6 +198,7 @@ export class CompassComponent {
       originalMousePosition: originalPosition,
     };
   }
+  
   angleBetween(p1: Position, p2: Position) {
     if (p1.x === p2.x && p1.y === p2.y) {
       return Math.PI / 2;
