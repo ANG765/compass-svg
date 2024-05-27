@@ -125,8 +125,12 @@ export class CompassComponent {
     }
     
     const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y) * -1;
+  
+    //prevent the legs from crossing:
+    if(radians>0) return;
+
     const newRadian = (radians * (180 / Math.PI));
-    this.legRotationRadian = radians;
+    this.legRotationRadian = radians + 0;
     this.transformLegs = {
       right:`rotate(${newRadian/2},${this.centerCompass.x},${this.centerCompass.y})`,
       left:`rotate(${newRadian/-2},${this.centerCompass.x},${this.centerCompass.y})`,
@@ -134,7 +138,7 @@ export class CompassComponent {
     }
     // this.offsetX += currentLegX - this.calculateLeftLegEnd().x;
     // this.offsetY += currentLegY - this.calculateLeftLegEnd().y;
-    console.log(currentLegX - this.calculateLeftLegEnd().x);
+    // console.log(currentLegX - this.calculateLeftLegEnd().x);
     this.getTransform(); 
   }
 
@@ -154,11 +158,13 @@ export class CompassComponent {
       y: this.offsetY + this.centerCompass.y
     }
 
+    console.log(this.legRotationRadian);
+
     let alpha = 2 * Math.PI - this.legRotationRadian/2;
     alpha %= 2 * Math.PI;
 
-    const x = this.lengthLegs * Math.sin(alpha);
-    const y = this.lengthLegs * Math.cos(alpha);
+    const x = this.lengthLegs * Math.sin(this.legRotationRadian/2+Math.PI);
+    const y = this.lengthLegs * Math.cos(this.legRotationRadian/2+Math.PI);
 
     return {
       x: rotationCenterWithOffset.x - x,
