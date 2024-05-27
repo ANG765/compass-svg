@@ -105,6 +105,8 @@ export class CompassComponent {
       x: this.offsetX + this.rotationCenter.x,
       y: this.offsetY + this.rotationCenter.y
     }
+
+    console.log(this.offsetX, this.rotationCenter.x);
     
     const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y);
     const newRadian = (radians * (180 / Math.PI) * -1) -180;
@@ -136,9 +138,9 @@ export class CompassComponent {
       left:`rotate(${newRadian/-2},${this.centerCompass.x},${this.centerCompass.y})`,
       calculatedEnd:this.calculateLeftLegEnd()
     }
-    // this.offsetX += currentLegX - this.calculateLeftLegEnd().x;
+    this.offsetX += currentLegX - this.calculateLeftLegEnd().x;
     // this.offsetY += currentLegY - this.calculateLeftLegEnd().y;
-    // console.log(currentLegX - this.calculateLeftLegEnd().x);
+    console.log(this.offsetY , currentLegY , this.calculateLeftLegEnd().y);
     this.getTransform(); 
   }
 
@@ -158,14 +160,13 @@ export class CompassComponent {
       y: this.offsetY + this.centerCompass.y
     }
 
-    console.log(this.legRotationRadian);
-
     let alpha = 2 * Math.PI - this.legRotationRadian/2;
     alpha %= 2 * Math.PI;
 
     const x = this.lengthLegs * Math.sin(this.legRotationRadian/2+Math.PI);
     const y = this.lengthLegs * Math.cos(this.legRotationRadian/2+Math.PI);
 
+    console.log(y);
     return {
       x: rotationCenterWithOffset.x - x,
       y: rotationCenterWithOffset.y - y,
