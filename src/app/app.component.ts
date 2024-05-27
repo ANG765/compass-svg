@@ -34,7 +34,7 @@ export class CompassComponent {
   widthCompass = 53;
   centerCompass = { x: 21, y: 70 };
   rotationCenterOfLegs = { x: 21, y: 52 };
-  widthLegs = 3;
+  widthLegs = 15;
   lengthLegs = 231.5;
   // Rotation position / Randian = angle of rotation
   legRotationRadian = 0;
@@ -43,7 +43,7 @@ export class CompassComponent {
   rotationRotatedCenter: Position;
   penPosition: Position;
 
-  transformLegs: {right:string} = {right:''};
+  transformLegs: {right:string;left:string,calculatedEnd?:Position} = {right:'',left:''};
 
   constructor() {
     this.legRotationRadian = 2 * Math.PI;
@@ -105,18 +105,43 @@ export class CompassComponent {
       x: this.offsetX + this.rotationCenter.x,
       y: this.offsetY + this.rotationCenter.y
     }
+
+    console.log(this.offsetX, this.rotationCenter.x);
     
     const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y);
     const newRadian = (radians * (180 / Math.PI) * -1) -180;
 
     this.rotationAngle = newRadian;
 
+    console.log('new:',this.calculateLeftLegEndOld(), 'old:',this.calculateLeftLegEnd())
+
     this.getTransform();
   }
 
   onRadiusChange(event: MouseEvent){
-    this.transformLegs = {right:`rotate(270,${this.centerCompass.x},${this.centerCompass.y})`}
-    console.log(event);
+    const currentLegX = this.calculateLeftLegEnd().x;
+    const currentLegY = this.calculateLeftLegEnd().y;
+    const rotationCenterWithOffset = {
+      x: this.offsetX + this.centerCompass.x,
+      y: this.offsetY + this.centerCompass.y
+    }
+    
+    const radians = Math.atan2(event.pageX - rotationCenterWithOffset.x, event.pageY - rotationCenterWithOffset.y) * -1;
+  
+    //prevent the legs from crossing:
+    if(radians>0) return;
+
+    const newRadian = (radians * (180 / Math.PI));
+    this.legRotationRadian = radians + 0;
+    this.transformLegs = {
+      right:`rotate(${newRadian/2},${this.centerCompass.x},${this.centerCompass.y})`,
+      left:`rotate(${newRadian/-2},${this.centerCompass.x},${this.centerCompass.y})`,
+      calculatedEnd:this.calculateLeftLegEnd()
+    }
+    this.offsetX += currentLegX - this.calculateLeftLegEnd().x;
+    // this.offsetY += currentLegY - this.calculateLeftLegEnd().y;
+    console.log(this.offsetY , currentLegY , this.calculateLeftLegEnd().y);
+    this.getTransform(); 
   }
 
   getTransform() {
@@ -130,6 +155,26 @@ export class CompassComponent {
   }
 
   calculateLeftLegEnd() {
+    const rotationCenterWithOffset = {
+      x: this.offsetX + this.centerCompass.x,
+      y: this.offsetY + this.centerCompass.y
+    }
+
+    let alpha = 2 * Math.PI - this.legRotationRadian/2;
+    alpha %= 2 * Math.PI;
+
+    const x = this.lengthLegs * Math.sin(this.legRotationRadian/2+Math.PI);
+    const y = this.lengthLegs * Math.cos(this.legRotationRadian/2+Math.PI);
+
+    console.log(y);
+    return {
+      x: rotationCenterWithOffset.x - x,
+      y: rotationCenterWithOffset.y - y,
+      radian: undefined,
+    };
+  }
+
+  calculateLeftLegEndOld() {
     let alpha = 2 * Math.PI - this.legRotationRadian;
     alpha %= 2 * Math.PI;
 
