@@ -1,75 +1,77 @@
 
 <svg class="svg-container" width="100%" height="100%" viewbox="0 0 500 500">
-  <g class="drawing-compass" [attr.transform]="transformStyles" (mousedown)="onDragStart($event)">
-      <g class="compass-left-leg">
-          <rect class="compass-grey" x="8" y="70" width="15" height="208.5" />
-          <path #leftLegTip class="compass-grey" d="M8 278.5 L23 301.5 L23 278.5 Z" />
-      </g>
-
-      <g class="compass-right-leg" [attr.transform]="transformLegs.right">
-          <rect class="compass-grey" x="29" y="70" width="15" height="206" />
-          <g id="compass-pen-handle">
-              <rect class="compass-transparent" x="26.5" y="273.5" width="20" height="30.5" />
-              <path class="compass-pen compass-grey-stroke" d="M44 276 L29 301.5 L29 276 Z" />
+    <circle [attr.cx]="transformLegs.calculatedEnd?.x" [attr.cy]="transformLegs.calculatedEnd?.y" r="3" fill="red"></circle>
+      <g class="drawing-compass" [attr.transform]="transformStyles" (mousedown)="onDragStart($event)">
+          <g class="compass-left-leg" [attr.transform]="transformLegs.left">
+              <rect class="compass-grey" x="8" y="70" width="15" height="208.5" />
+              <path #leftLegTip class="compass-grey" d="M8 278.5 L23 301.5 L23 278.5 Z" />
           </g>
-          <g id="move-leg" class="compass-change-radius-handle" (mousedown)="onRadiusChangeStart($event)">
-              <circle class="compass-transparent" cx="43.75" cy="258.75" r="12.5" />
-              <circle class="compass-dark-grey" cx="43.75" cy="258.75" r="9.25" />
-              <path class="compass-white"
-                  d="M40.437,259.194l1.235,1.235l-0.671,0.671l-1.676,-1.676l-0.002,0.002l-0.671,-0.671l0.673,-0.673l-0.003,-0.003l1.679,-1.679l0.671,0.671l-0.673,0.673l-0.553,0.559l4.306,0l0,0.003l2.311,0l-1.235,-1.235l0.671,-0.671l1.676,1.676l0.002,-0.002l0.671,0.671l-0.673,0.673l0.003,0.003l-1.679,1.679l-0.671,-0.671l0.673,-0.673l0.553,-0.559l-4.306,0l0,-0.003l-2.311,0Z" />
+    
+          <g class="compass-right-leg" [attr.transform]="transformLegs.right">
+              <rect class="compass-grey" x="29" y="70" width="15" height="206" />
+              <g id="compass-pen-handle">
+                  <rect class="compass-transparent" x="26.5" y="273.5" width="20" height="30.5" />
+                  <path class="compass-pen compass-grey-stroke" d="M44 276 L29 301.5 L29 276 Z" />
+              </g>
+              <g id="move-leg" class="compass-change-radius-handle" (mousedown)="onRadiusChangeStart($event)">
+                  <circle class="compass-transparent" cx="43.75" cy="258.75" r="12.5" />
+                  <circle class="compass-dark-grey" cx="43.75" cy="258.75" r="9.25" />
+                  <path class="compass-white"
+                      d="M40.437,259.194l1.235,1.235l-0.671,0.671l-1.676,-1.676l-0.002,0.002l-0.671,-0.671l0.673,-0.673l-0.003,-0.003l1.679,-1.679l0.671,0.671l-0.673,0.673l-0.553,0.559l4.306,0l0,0.003l2.311,0l-1.235,-1.235l0.671,-0.671l1.676,1.676l0.002,-0.002l0.671,0.671l-0.673,0.673l0.003,0.003l-1.679,1.679l-0.671,-0.671l0.673,-0.673l0.553,-0.559l-4.306,0l0,-0.003l-2.311,0Z" />
+              </g>
+          </g>
+    
+          <g #rotateTip class="compass-rotation-handle" (mousedown)="onRotationStart($event)">
+              <path class="compass-blue"
+                  d="M35.582,0l-9.035,0l-0.094,0l-9.034,0l-2.949,5.556l0,29.944l24.059,0l0,-29.944l-2.947,-5.556Z" />
+              <g id="rotate">
+                  <circle class="compass-dark-blue" cx="26.5" cy="17.75" r="8.435" />
+                  <path class="compass-white"
+                      d="M25.112,18.444l0,3.237l-3.237,0l0,-0.925l1.651,0c-0.726,-0.786 -1.188,-1.85 -1.188,-3.006c0,-2.411 1.984,-4.394 4.394,-4.394c2.411,0 4.394,1.983 4.394,4.394c0,2.411 -1.984,4.394 -4.394,4.394l-0.231,0l0,-0.925l0.231,0c1.903,0 3.469,-1.566 3.469,-3.469c0,-1.903 -1.566,-3.469 -3.469,-3.469c-1.902,0 -3.469,1.566 -3.469,3.469c0,0.911 0.351,1.739 0.925,2.358l0,-1.665l0.925,0Z" />
+              </g>
+          </g>
+    
+          <rect class="compass-grey" x="22" y="35.5" width="8.5" height="8.5" />
+    
+          <g id="move-body" class="compass-body">
+              <path class="compass-blue"
+                  d="M45.907,43.959l-19.655,0l-0.205,0l-19.65,0l-6.415,8.765l0,47.235l52.335,0l0,-47.235l-6.41,-8.765Z" />
+              <g id="move-compass">
+                  <circle class="compass-dark-blue" cx="26" cy="71.959" r="12.529" />
+                  <path class="compass-white"
+                      d="M26.575,72.529l-0.005,0l0,0.148l0,0l0,5.398l1.588,-1.588l0.863,0.863l-2.154,2.154l0.003,0.002l-0.863,0.863l-0.865,-0.865l-0.003,0.003l-2.158,-2.158l0.863,-0.863l0.865,0.865l0.003,-0.004l0.715,0.715l0,-5.535l0,0l0,0l-0.148,0l0,0.001l-5.398,0l1.588,1.587l-0.863,0.863l-2.154,-2.154l-0.002,0.002l-0.863,-0.863l0.865,-0.865l-0.003,-0.003l2.158,-2.158l0.863,0.863l-0.865,0.865l0.003,0.004l-0.715,0.715l5.535,0l0,0.004l0.005,0l0,-0.149l0,0l0,-5.398l-1.588,1.588l-0.863,-0.863l2.154,-2.154l-0.003,-0.003l0.863,-0.863l0.865,0.865l0.003,-0.004l2.158,2.158l-0.863,0.863l-0.865,-0.865l-0.003,0.003l-0.715,-0.715l0,5.535l0,0l0,0l0.148,0l0,-0.001l5.398,0l-1.588,-1.587l0.863,-0.863l2.154,2.154l0.002,-0.002l0.863,0.863l-0.865,0.865l0.003,0.004l-2.158,2.158l-0.863,-0.863l0.865,-0.865l-0.003,-0.003l0.715,-0.715l-5.535,0l0,-0.004Z" />
+              </g>
           </g>
       </g>
-
-      <g #rotateTip class="compass-rotation-handle" (mousedown)="onRotationStart($event)">
-          <path class="compass-blue"
-              d="M35.582,0l-9.035,0l-0.094,0l-9.034,0l-2.949,5.556l0,29.944l24.059,0l0,-29.944l-2.947,-5.556Z" />
-          <g id="rotate">
-              <circle class="compass-dark-blue" cx="26.5" cy="17.75" r="8.435" />
-              <path class="compass-white"
-                  d="M25.112,18.444l0,3.237l-3.237,0l0,-0.925l1.651,0c-0.726,-0.786 -1.188,-1.85 -1.188,-3.006c0,-2.411 1.984,-4.394 4.394,-4.394c2.411,0 4.394,1.983 4.394,4.394c0,2.411 -1.984,4.394 -4.394,4.394l-0.231,0l0,-0.925l0.231,0c1.903,0 3.469,-1.566 3.469,-3.469c0,-1.903 -1.566,-3.469 -3.469,-3.469c-1.902,0 -3.469,1.566 -3.469,3.469c0,0.911 0.351,1.739 0.925,2.358l0,-1.665l0.925,0Z" />
-          </g>
-      </g>
-
-      <rect class="compass-grey" x="22" y="35.5" width="8.5" height="8.5" />
-
-      <g id="move-body" class="compass-body">
-          <path class="compass-blue"
-              d="M45.907,43.959l-19.655,0l-0.205,0l-19.65,0l-6.415,8.765l0,47.235l52.335,0l0,-47.235l-6.41,-8.765Z" />
-          <g id="move-compass">
-              <circle class="compass-dark-blue" cx="26" cy="71.959" r="12.529" />
-              <path class="compass-white"
-                  d="M26.575,72.529l-0.005,0l0,0.148l0,0l0,5.398l1.588,-1.588l0.863,0.863l-2.154,2.154l0.003,0.002l-0.863,0.863l-0.865,-0.865l-0.003,0.003l-2.158,-2.158l0.863,-0.863l0.865,0.865l0.003,-0.004l0.715,0.715l0,-5.535l0,0l0,0l-0.148,0l0,0.001l-5.398,0l1.588,1.587l-0.863,0.863l-2.154,-2.154l-0.002,0.002l-0.863,-0.863l0.865,-0.865l-0.003,-0.003l2.158,-2.158l0.863,0.863l-0.865,0.865l0.003,0.004l-0.715,0.715l5.535,0l0,0.004l0.005,0l0,-0.149l0,0l0,-5.398l-1.588,1.588l-0.863,-0.863l2.154,-2.154l-0.003,-0.003l0.863,-0.863l0.865,0.865l0.003,-0.004l2.158,2.158l-0.863,0.863l-0.865,-0.865l-0.003,0.003l-0.715,-0.715l0,5.535l0,0l0,0l0.148,0l0,-0.001l5.398,0l-1.588,-1.587l0.863,-0.863l2.154,2.154l0.002,-0.002l0.863,0.863l-0.865,0.865l0.003,0.004l-2.158,2.158l-0.863,-0.863l0.865,-0.865l-0.003,-0.003l0.715,-0.715l-5.535,0l0,-0.004Z" />
-          </g>
-      </g>
-  </g>
-</svg>
-
-<pre>
-    dragging = {{dragging}};
-    dragStartX = {{dragStartX}};
-    dragStartY = {{dragStartY}};
-    offsetX = {{offsetX}};
-    offsetY = {{offsetY}};
-    // Rotation
-    rotating = {{rotating}};
-    rotationAngle = {{rotationAngle}};
-    rotationPosition: P{{rotationPosition}};
-    rotationStartedX = {{rotationStartedX}};
-    rotationStartedY = {{rotationStartedY}};
-    transformStyles = {{transformStyles}};
-    // Radius
-    radiusChange = {{radiusChange}};
-    // Compass size
-    heightCompass = {{heightCompass}};
-    widthCompass = {{widthCompass}};
-    centerCompass = {{centerCompass}};
-    rotationCenterOfLegs = {{rotationCenterOfLegs}};
-    widthLegs = {{widthLegs}};
-    lengthLegs = {{lengthLegs}};
-    // Rotation position / Randian = angle of rotation
-    legRotationRadian = {{legRotationRadian}};
-    originalMousePosition = {{originalMousePosition}};
-    rotationCenter = {{rotationCenter}};
-    rotationRotatedCenter = {{rotationRotatedCenter}};
-    penPosition = {{penPosition}};
-</pre>
+    </svg>
+    
+    <pre>
+        dragging = {{dragging}};
+        dragStartX = {{dragStartX}};
+        dragStartY = {{dragStartY}};
+        offsetX = {{offsetX}};
+        offsetY = {{offsetY}};
+        // Rotation
+        rotating = {{rotating}};
+        rotationAngle = {{rotationAngle}};
+        rotationPosition: P{{rotationPosition}};
+        rotationStartedX = {{rotationStartedX}};
+        rotationStartedY = {{rotationStartedY}};
+        transformStyles = {{transformStyles}};
+        // Radius
+        radiusChange = {{radiusChange}};
+        // Compass size
+        heightCompass = {{heightCompass}};
+        widthCompass = {{widthCompass}};
+        centerCompass = {{centerCompass}};
+        rotationCenterOfLegs = {{rotationCenterOfLegs}};
+        widthLegs = {{widthLegs}};
+        lengthLegs = {{lengthLegs}};
+        // Rotation position / Randian = angle of rotation
+        legRotationRadian = {{legRotationRadian}};
+        originalMousePosition = {{originalMousePosition}};
+        rotationCenter = {{rotationCenter}};
+        rotationRotatedCenter = {{rotationRotatedCenter | json}};
+        penPosition = {{penPosition}};
+    </pre>
+    
